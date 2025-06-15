@@ -607,8 +607,7 @@ class ProductController extends Controller
                         $resultPricePIX = $this->formatMoney($request->promo);
                     }
 
-                    // Validando valor abaixo de 5.00 para gateway ASAAS
-Correcting a syntax error in the ProductController by ensuring the closing bracket is properly placed.```text
+                    // Validando valor abaixo de 5.00 paragateway ASAAS
 if ($prod->gateway == 'asaas' && $price < 5) {
                         return Redirect::back()->withErrors('Sua aposta deve ser de no mínimo R$ 5,00');
                     }

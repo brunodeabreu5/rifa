@@ -18,7 +18,12 @@ class ExpiradasMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $participantes = Participante::where('reservados', '>', 0)->get();
+        // Verificar se a tabela participant existe antes de fazer a query
+        if (DB::getSchemaBuilder()->hasTable('participant')) {
+            $participantes = DB::table('participant')->where('reservados', '>', 0)->get();
+        } else {
+            $participantes = collect(); // Retorna coleção vazia se tabela não existir
+        }
         foreach ($participantes as $participante) {
             $rifa = $participante->rifa();
 
@@ -59,7 +64,7 @@ class ExpiradasMiddleware
         // if($secretKey != null){
         //     \MercadoPago\SDK::setAccessToken($secretKey);
         // }
-        
+
 
         // $pendentes = DB::table('payment_pix')->where('status', '=', 'Pendente')->where('key_pix', '!=', '')->get();
 

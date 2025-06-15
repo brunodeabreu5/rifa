@@ -45,6 +45,14 @@ class ProductController extends Controller
                 'tema' => 'light',
                 'telephone' => ''
             ];
+        } else {
+            // Ensure tema property exists
+            if (!isset($config->tema)) {
+                $config->tema = 'light';
+            }
+            if (!isset($config->telephone)) {
+                $config->telephone = '';
+            }
         }
 
         return view('welcome', [
@@ -66,6 +74,22 @@ class ProductController extends Controller
         $winners = ModelsProduct::where('status', '=', 'Finalizado')->where('visible', '=', 1)->where('winner', '!=', null)->get();
         
         $config = DB::table('consulting_environments')->where('id', '=', 1)->first();
+        
+        // Create a default config object if none exists
+        if (!$config) {
+            $config = (object) [
+                'tema' => 'light',
+                'telephone' => ''
+            ];
+        } else {
+            // Ensure tema property exists
+            if (!isset($config->tema)) {
+                $config->tema = 'light';
+            }
+            if (!isset($config->telephone)) {
+                $config->telephone = '';
+            }
+        }
 
         return view('sorteios', [
             'products' => $products,

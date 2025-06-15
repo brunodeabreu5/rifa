@@ -62,6 +62,7 @@ class ProductController extends Controller
             'user' => User::find(1),
             'productModel' => ModelsProduct::find(4),
             'config' => $config
+        ]);ig' => $config
         ]);
     }
 

@@ -33,7 +33,11 @@
     }
 
     function duvidas() {
-        window.open('https://api.whatsapp.com/send?phone={{ $user->telephone }}', '_blank');
+        @if(isset($user) && $user && $user->telephone)
+            window.open('https://api.whatsapp.com/send?phone={{ $user->telephone }}', '_blank');
+        @else
+            window.open('https://api.whatsapp.com/send?phone={{ $config->telephone ?? "" }}', '_blank');
+        @endif
     }
 
     function verRifa(route) {

@@ -1,0 +1,8 @@
+modules = ["nodejs-20", "web", "php-8.2"]
+run = "php artisan serve"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "php artisan serve"]

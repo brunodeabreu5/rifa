@@ -38,6 +38,14 @@ class ProductController extends Controller
         $winners = ModelsProduct::select('winner')->where('status', '=', 'Finalizado')->where('visible', '=', 1)->where('winner', '!=', null)->get();
         
         $config = DB::table('consulting_environments')->where('id', '=', 1)->first();
+        
+        // Create a default config object if none exists
+        if (!$config) {
+            $config = (object) [
+                'tema' => 'light',
+                'telephone' => ''
+            ];
+        }
 
         return view('welcome', [
             'products' => $products,
@@ -46,7 +54,7 @@ class ProductController extends Controller
             'user' => User::find(1),
             'productModel' => ModelsProduct::find(4),
             'config' => $config
-        ]);
+        ]);</div>
     }
 
     public function sorteios()

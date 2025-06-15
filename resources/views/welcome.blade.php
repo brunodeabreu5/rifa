@@ -293,20 +293,20 @@
     <div class="container app-main" id="app-main">
 
         <div class="row justify-content-center">
-            <div class="col-md-6 col-12 rifas {{ $config->tema }}">
-                <div class="app-title {{ $config->tema }}">
+            <div class="col-md-6 col-12 rifas {{ isset($config) && $config ? $config->tema : 'light' }}">
+                <div class="app-title {{ isset($config) && $config ? $config->tema : 'light' }}">
                     <h1>⚡ Prêmios</h1>
-                    <div class="app-title-desc {{ $config->tema }}">Escolha sua sorte</div>
-                </div>
+                    <div class="app-title-desc {{ isset($config) && $config ? $config->tema : 'light' }}">Escolha sua sorte</div>
+                </div></div>
 
                 {{-- Rifa em destaque --}}
                 @foreach ($products->where('favoritar', '=', 1) as $product)
                     <a href="{{ route('product', ['slug' => $product->slug]) }}">
-                        <div class="card-rifa-destaque {{ $config->tema }}">
+                        <div class="card-rifa-destaque {{ isset($config) && $config ? $config->tema : 'light' }}">
                             <div class="img-rifa-destaque">
                                 <img src="/products/{{ $product->imagem()->name }}" alt="" srcset="">
                             </div>
-                            <div class="title-rifa-destaque {{ $config->tema }}">
+                            <div class="title-rifa-destaque {{ isset($config) && $config ? $config->tema : 'light' }}"></div>
                                 <h1>{{ $product->name }}</h1>
                                 <p>{{ $product->subname }}</p>
                                 <div style="width: 100%;">
@@ -327,11 +327,11 @@
                 {{-- Outras Rifas --}}
                 @foreach ($products->where('favoritar', '=', 0) as $product)
                     <a href="{{ route('product', ['slug' => $product->slug]) }}">
-                        <div class="card-rifa {{ $config->tema }}">
+                        <div class="card-rifa {{ isset($config) && $config ? $config->tema : 'light' }}">
                             <div class="img-rifa">
                                 <img src="/products/{{ $product->imagem()->name }}" alt="" srcset="">
                             </div>
-                            <div class="title-rifa title-rifa-destaque {{ $config->tema }}">
+                            <div class="title-rifa title-rifa-destaque {{ isset($config) && $config ? $config->tema : 'light' }}"></div>
 
 
                                 <h1>{{ $product->name }}</h1>
@@ -355,7 +355,7 @@
                 <div onclick="duvidas()" class="container d-flex duvida" style="">
                     <div class="row">
                         <div class="d-flex icone-duvidas">🤷</div>
-                        <div class="col text-duvidas {{ $config->tema }}">
+                        <div class="col text-duvidas {{ isset($config) && $config ? $config->tema : 'light' }}">
                             <h6 class="mb-0 font-md f-15">Dúvidas?</h6>
                             <p class="mb-0  font-sm f-12 text-muted">Fale conosco</p>
                         </div>
@@ -364,10 +364,10 @@
 
                 {{-- Ganhadores --}}
                 @if ($ganhadores->count() > 0)
-                    <div class="app-title {{ $config->tema }}">
+                    <div class="app-title {{ isset($config) && $config ? $config->tema : 'light' }}">
                         <h1>🎉 Ganhadores</h1>
-                        <div class="app-title-desc {{ $config->tema }}">sortudos</div>
-                    </div>
+                        <div class="app-title-desc {{ isset($config) && $config ? $config->tema : 'light' }}">sortudos</div>
+                    </div></div>
 
                     <style>
                         .ganhador {
@@ -429,13 +429,13 @@
 
                         {{-- Ganhador manual (editar rifa) --}}
                         @foreach ($winners as $winner)
-                            <div class="ganhador {{ $config->tema }}"
+                            <div class="ganhador {{ isset($config) && $config ? $config->tema : 'light' }}"
                                 onclick="verRifa('{{ route('product', ['slug' => $winner->slug]) }}')">
                                 <div class="ganhador-foto">
                                     <img src="images/sem-foto.jpg" class="" alt="{{ $winner->name }}"
                                         style="min-height: 50px;max-height: 20px;border-radius:10px;">
                                 </div>
-                                <div class="ganhador-desc {{ $config->tema }}">
+                                <div class="ganhador-desc {{ isset($config) && $config ? $config->tema : 'light' }}"></div>
                                     <h3>{{ $winner->winner }}</h3>
                                     <p>
                                         <strong>Sorteio: </strong>
@@ -449,7 +449,7 @@
                         @endforeach
 
                         @foreach ($ganhadores as $ganhador)
-                            <div class="ganhador {{ $config->tema }}"
+                            <div class="ganhador {{ isset($config) && $config ? $config->tema : 'light' }}"
                                 onclick="verRifa('{{ route('product', ['slug' => $ganhador->rifa()->slug]) }}')">
                                 <div class="ganhador-foto">
                                     @if ($ganhador->foto)
@@ -461,7 +461,7 @@
                                     @endif
 
                                 </div>
-                                <div class="ganhador-desc {{ $config->tema }}">
+                                <div class="ganhador-desc {{ isset($config) && $config ? $config->tema : 'light' }}"></div>
                                     <h3>{{ $ganhador->ganhador }}</h3>
                                     <p>
                                         Ganhou <strong>{{ $ganhador->descricao }}</strong> cota <span
@@ -483,9 +483,9 @@
                 {{-- Perguntas ferquentes --}}
                 @if (!env('HIDE_FAQ'))
                     <div class="perguntas-frequentes pb-2">
-                        <div class="app-title {{ $config->tema }}">
+                        <div class="app-title {{ isset($config) && $config ? $config->tema : 'light' }}">
                             <h1>🤷 Perguntas frequentes</h1>
-                        </div>
+                        </div></div>
                         <div class="accordion" id="accordionExample">
                             <div class="card">
                                 <div class="card-header" id="headingOne">

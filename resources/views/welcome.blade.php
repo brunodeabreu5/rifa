@@ -47,7 +47,7 @@
 
 
 <style>
-    
+
 
     @media only screen and (-webkit-min-device-pixel-ratio: 1) {
 
@@ -313,7 +313,7 @@
                                     {!! $product->status() !!}
                                     @if ($product->draw_date)
                                         <br>
-                                        <span class="data-sorteio {{ $config->tema }}" style="font-size: 12px;">
+                                        <span class="data-sorteio {{ isset($config) && $config ? $config->tema : 'light' }}" style="font-size: 12px;">
                                             Data do sorteio {{ date('d/m/Y', strtotime($product->draw_date)) }}
                                             {{-- {!! $product->dataSorteio() !!} --}}
                                         </span>
@@ -341,7 +341,7 @@
                                     {!! $product->status() !!}
                                     @if ($product->draw_date)
                                         <br>
-                                        <span class="data-sorteio {{ $config->tema }}" style="font-size: 12px;">
+                                        <span class="data-sorteio {{ isset($config) && $config ? $config->tema : 'light' }}" style="font-size: 12px;">
                                             Data do sorteio {{ date('d/m/Y', strtotime($product->draw_date)) }}
                                         </span>
                                     @endif
@@ -538,6 +538,6 @@
         <br>
         @include('layouts.footer')
     </div>
-    
+
     <br>
 @endsection

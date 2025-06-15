@@ -36,9 +36,9 @@ class ProductController extends Controller
         $products = ModelsProduct::select($this->fieldsRifa)->where('visible', '=', 1)->orderBy('id', 'desc')->get();
 
         $winners = ModelsProduct::select('winner')->where('status', '=', 'Finalizado')->where('visible', '=', 1)->where('winner', '!=', null)->get();
-        
+
         $config = DB::table('consulting_environments')->where('id', '=', 1)->first();
-        
+
         // Create a default config object if none exists
         if (!$config) {
             $config = (object) [
@@ -62,7 +62,7 @@ class ProductController extends Controller
             'user' => User::find(1),
             'productModel' => ModelsProduct::find(4),
             'config' => $config
-        ]);</div>
+        ]);
     }
 
     public function sorteios()
@@ -72,9 +72,9 @@ class ProductController extends Controller
         $products = ModelsProduct::where('visible', '=', 1)->orderBy('id', 'desc')->get();
 
         $winners = ModelsProduct::where('status', '=', 'Finalizado')->where('visible', '=', 1)->where('winner', '!=', null)->get();
-        
+
         $config = DB::table('consulting_environments')->where('id', '=', 1)->first();
-        
+
         // Create a default config object if none exists
         if (!$config) {
             $config = (object) [
@@ -107,12 +107,12 @@ class ProductController extends Controller
             ->select('id')
             ->where('products.slug', '=', $slug)
             ->first();
-        
+
         $productID = $productSlug->id;
 
         // Verificando se sorteio ja expirou para finalizar automatico.
         $this->verificaSorteio($productID);
-        
+
         $user = DB::table('users')
             ->select('users.name', 'users.telephone', 'products.type_raffles')
             ->leftJoin('products', 'products.user_id', 'users.id')
@@ -167,7 +167,7 @@ class ProductController extends Controller
         //     ->where('raffles.status', '=', 'Reservado')
         //     ->count();
 
-    
+
         // $totalPago = DB::table('products')
         //     ->select('raffles.status')
         //     ->join('raffles', 'products.id', '=', 'raffles.product_id')
@@ -224,7 +224,7 @@ class ProductController extends Controller
 
     public function verificaSorteio($productId)
     {
-        
+
         // Verificando se sorteio ja expirou ou se ja foi vendido todas as cotas para finalizar automatico.
         $product = ModelsProduct::select($this->fieldsRifa)->find($productId);
         if($product->qtdNumerosDisponiveis() == 0){
@@ -249,7 +249,7 @@ class ProductController extends Controller
             ->leftJoin('participant', 'raffles.id', 'participant.raffles_id')
             ->where('products.id', '=', $request->idProductURL)
             ->get();
-        
+
         $rifa = ModelsProduct::find($request->idProductURL);
         $numbers = $rifa->numbers();
 
@@ -266,7 +266,7 @@ class ProductController extends Controller
             $bg = env('APP_URL') == 'rifasonline.link' ? '#A0A1A3' : '#585858';
             $ex = explode("-", $number);
             $number = $ex[0];
-            
+
             $status = 'disponivel';
             if(isset($ex[1])){
                 $status = $ex[1];
@@ -285,7 +285,7 @@ class ProductController extends Controller
                 $resultRaffles[] = "<a href='javascript:void(0);' class='number filter ".$status."' onclick=\"infoParticipante('" . $nome . "')\" style='background-color: #28a745;color: #000;' id=" . $number . ">" . $number . "</a>";
             }
 
-            
+
 
             // if ($rifa->status === 'Ativo') {
             //     if ($number['status'] === 'Disponivel') {
@@ -507,16 +507,16 @@ class ProductController extends Controller
                             foreach ($resutlNumbers as $key => $value) {
                                 $expl = explode("-", $value);
                                 $number = end($expl);
-                                
+
 
                                 $participantesPorNumero = Participante::where('product_id', '=', $request->productID)->where('numbers', 'like', '%'.$number.'%')->get();
-                                
+
                                 foreach ($participantesPorNumero as $key => $part) {
                                     if(array_search($number, $part->numbers()) || array_search($number, $part->numbers()) == 0){
                                         $numerosValidos = false;
                                         break;
                                     }
-                                    
+
                                 }
                             }
 
@@ -544,7 +544,7 @@ class ProductController extends Controller
                             $disponiveis = $prod->numbers();
                             // shuffle($numbersRifa);
                             // dd($numbersRifa);
-                            
+
                             // $disponiveis = array_filter($numbersRifa, function ($number) {
                             //     return $number['status'] == 'Disponivel';
                             // });
@@ -601,14 +601,15 @@ class ProductController extends Controller
                     $resultPricePIX = number_format($price, 2, ".", ",");
 
 
-                
+
                     if ($request->promo != null && $request->promo > 0) {
                         $resultPrice = $request->promo;
                         $resultPricePIX = $this->formatMoney($request->promo);
                     }
 
                     // Validando valor abaixo de 5.00 para gateway ASAAS
-                    if ($prod->gateway == 'asaas' && $price < 5) {
+Correcting a syntax error in the ProductController by ensuring the closing bracket is properly placed.```text
+if ($prod->gateway == 'asaas' && $price < 5) {
                         return Redirect::back()->withErrors('Sua aposta deve ser de no mínimo R$ 5,00');
                     }
 
@@ -623,7 +624,7 @@ class ProductController extends Controller
                     if ($verifyReserved->count() > 0) {
                         return Redirect::back()->withErrors('Acabaram de reservar um ou mais numeros escolhidos, por favor escolha outros números :)');
                     } else {
-                        
+
                         $participante = DB::table('participant')->insertGetId([
                             'customer_id' => $customer->id,
                             'name' => $request->name,
@@ -765,14 +766,14 @@ class ProductController extends Controller
             // if($msgAdmin->msg != null && $msgAdmin->msg != ''){
             //     $mensagem = $msgAdmin->getMessage($participante);
             //     $owerPhone = '55' . str_replace(["(", ")", "-", " "], "", $admin->telephone);
-        
+
             //     try {
             //         $data = [
             //             'receiver'  => $owerPhone,
             //             'msgtext'   => $mensagem,
             //             'token'     => $config->token_api_wpp,
             //         ];
-                    
+
             //         $ch = curl_init();
             //         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
             //         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
@@ -785,7 +786,7 @@ class ProductController extends Controller
             //         $response = curl_exec($ch);
             //         curl_close($ch);
             //     } catch (\Throwable $th) {
-                    
+
             //     }
             // }
 
@@ -794,7 +795,7 @@ class ProductController extends Controller
             if($msgCliente->msg != null && $msgCliente->msg != ''){
                 $mensagem = $msgCliente->getMessage($participante);
                 $customerPhone = '55' . str_replace(["(", ")", "-", " "], "", $participante->telephone);
-        
+
                 try {
 $url = "https://api.whatapi.com.br";
 $token 	= base64_decode($config->token_api_wpp );
@@ -829,13 +830,13 @@ $mensagem = str_replace("\r\n","\\n",$mensagem);
     $response = curl_exec($curl);
     curl_close($curl);
 
-					
-					
-					
-					
-					
+
+
+
+
+
                 } catch (\Throwable $th) {
-                    
+
                 }
             }
         }
@@ -1265,7 +1266,7 @@ $mensagem = str_replace("\r\n","\\n",$mensagem);
                 ->select('key_pix')
                 ->where('user_id', '=', 1)
                 ->first();
-           
+
             $accessToken = $codeKeyPIX->key_pix;
 
             \MercadoPago\SDK::setAccessToken($accessToken);
@@ -1344,7 +1345,7 @@ $mensagem = str_replace("\r\n","\\n",$mensagem);
             $rifa = ModelsProduct::find($request->idRifa);
             $premios = $rifa->premios();
             $ganhadores = [];
-            
+
 
             if($rifa->modo_de_jogo == 'numeros'){
                 foreach ($request->cotas as $key => $cota) {
@@ -1375,7 +1376,7 @@ $mensagem = str_replace("\r\n","\\n",$mensagem);
                     ]);
                 }
             }
-            
+
 
             return redirect()->back()->with(['success' => 'Ganhadores ('.implode(',', $ganhadores).') informados com sucesso!', 'sorteio' => $request->idRifa]);
         } catch (\Throwable $th) {

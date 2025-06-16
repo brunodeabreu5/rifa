@@ -29,6 +29,11 @@ use QRcode;
 
 class ProductController extends Controller
 {
+    protected $fieldsRifa = [
+        'id', 'name', 'subname', 'price', 'qtd', 'status', 'draw_date', 
+        'draw_prediction', 'winner', 'visible', 'created_at', 'updated_at'
+    ];
+
     public function index()
     {
         $ganhadores = Premio::where('descricao', '!=', null)->where('ganhador', '!=', '')->get();

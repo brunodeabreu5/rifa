@@ -293,8 +293,8 @@
     <div class="container app-main" id="app-main">
 
         <div class="row justify-content-center">
-            <div class="col-md-6 col-12 rifas {{ isset($config) && $config->tema ? $config->tema : 'light' }}">
-                <div class="app-title {{ isset($config) && $config->tema ? $config->tema : 'light' }}">
+            <div class="col-md-6 col-12 rifas {{ $config->tema ?? 'light' }}">
+                <div class="app-title {{ $config->tema ?? 'light' }}">
                     <h1>⚡ Prêmios</h1>
                     <div class="app-title-desc {{ isset($config) && $config ? $config->tema : 'light' }}">Escolha sua sorte</div>
                 </div></div>

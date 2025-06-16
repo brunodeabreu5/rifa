@@ -8,6 +8,10 @@ use App\Product;
 use App\CreateProductimage;
 use App\Customer;
 use App\Environment;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
+use MercadoPago\SDK;
+use MercadoPago\Payment;
 use App\GanhosAfiliado;
 use App\Models\Order;
 use App\Models\Participante;
@@ -16,7 +20,6 @@ use App\Models\Product as ModelsProduct;
 use App\Models\Raffle;
 use App\RifaAfiliado;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -28,8 +31,7 @@ use Illuminate\Support\Facades\Storage;
 use QRcode;
 
 class ProductController extends Controller
-{
-    protected $fieldsRifa = [
+{    public $fieldsRifa = [
         'id', 'name', 'subname', 'price', 'qtd', 'status', 'draw_date', 
         'draw_prediction', 'winner', 'visible', 'created_at', 'updated_at'
     ];
@@ -1198,9 +1200,7 @@ class ProductController extends Controller
 
             DB::table('payment_pix')->where('participant_id', '=', $participante->id)->update([
                 'status' => 'Aprovado'
-            ]);
-
-            return response('OK', 200)->header('Content-Type', 'text/plain');
+            ]);            return response('OK', 200)->header('Content-Type', 'text/plain');
         }
     }
-}/replit_final_file>
+}

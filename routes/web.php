@@ -14,9 +14,18 @@
 // SUBDOMAINs para os consultores
 
 use App\Http\Controllers\AfiliadoController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+// Rotas de Autenticação
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['check'])->group(function () {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -192,3 +201,15 @@ Route::middleware(['check'])->group(function () {
 
     Route::get('valida-part/{id}', 'TestController@validaParticipantes');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

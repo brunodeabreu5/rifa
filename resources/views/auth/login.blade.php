@@ -1,63 +1,66 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="title">
-            <h3><i class="bi bi-clock-history"></i> ENTRAR</h3>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Sistema de Rifas - Login</h4>
+                </div>
+
+                <div class="card-body">
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                id="email" name="email" value="{{ old('email') }}" 
+                                required autofocus>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                id="password" name="password" required>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="remember" 
+                                    id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="remember">
+                                    Lembrar-me
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                Entrar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="sub-title">Crie seus próprios sorteios!</div>
-
-        <form class="form-signin" method="POST" action="{{ route('login') }}" style="text-align: center;">
-            {{ csrf_field() }}
-
-            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                <label for="email" class="col-md-4 control-label">E-Mail</label>
-
-                <div class="col-md-12"
-                    style="max-width: 250px;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;">
-                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
-                        required autofocus>
-
-                    @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                <label for="password" class="col-md-4 control-label">Senha</label>
-
-                <div class="col-md-12"
-                    style="max-width: 250px;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;">
-                    <input id="password" type="password" class="form-control" name="password" required>
-
-                    @if ($errors->has('password'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="">
-                    <button type="submit" class="btn btn-primary">
-                        Entrar
-                    </button> 
-                <!--</div>
-                <a class="btn btn-link" href="">
-                    Esqueci minha senha
-                </a>
-            </div> -->
-
-        </form>
     </div>
+</div>
 @endsection

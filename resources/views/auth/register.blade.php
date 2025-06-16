@@ -2,146 +2,76 @@
 
 @section('content')
 <div class="container">
-    <div class="title">
-        <h3><i class="bi bi-clock-history"></i> REGISTRAR</h3>
-    </div>
-    <div class="sub-title">Crie seus próprios sorteios!</div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Register') }}</div>
 
-    <div class="row">
-        <div class="col-md-12" style="margin-bottom: 150px;">
-            <form class="form-horizontal" method="POST" action="{{ route('register') }}">
-                {{ csrf_field() }}
+                <div class="card-body">
+                    <form method="POST" action="{{ route('register') }}">
+                        @csrf
 
-                <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                    <label for="name" class="col-md-4 control-label">Name</label>
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
-                    <div class="col-md-12">
-                        <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-                        @if ($errors->has('name'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('name') }}</strong>
-                        </span>
-                        @endif
-                    </div>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Register') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                    <label for="email" class="col-md-4 control-label">E-Mail</label>
-
-                    <div class="col-md-12">
-                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                        @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('telephone') ? ' has-error' : '' }}">
-                    <label for="telephone" class="col-md-4 control-label">Celular</label>
-
-                    <div class="col-md-12">
-                        <input id="telephone" type="text" class="form-control" name="telephone" maxlength="15" value="{{ old('telephone') }}" required>
-
-                        @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('telephone') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('work') ? ' has-error' : '' }}">
-                    <label for="work" class="col-md-4 control-label">Crie um nome para o seu ambiente de rifas</label>
-
-                    <div class="col-md-12">
-                        <input id="work" type="text" class="form-control" name="work" value="{{ old('work') }}" placeholder="Exemplo: Jõao" required>
-
-                        @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('work') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('instagram') ? ' has-error' : '' }}">
-                    <label for="instagram" class="col-md-4 control-label">Seu perfil do instagram</label>
-
-                    <div class="col-md-12">
-                        <input id="instagram" type="text" class="form-control" name="instagram" value="{{ old('instagram') }}" placeholder="Link do instagram" required>
-
-                        @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('instagram') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label for="password" class="col-md-4 control-label">Senha</label>
-
-                    <div class="col-md-12">
-                        <input id="password" type="password" class="form-control" name="password" required>
-
-                        @if ($errors->has('password'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password-confirm" class="col-md-4 control-label">Confirmar Senha</label>
-
-                    <div class="col-md-12">
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary">
-                            Registrar
-                        </button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-    /* Máscaras ER */
-    function mascara(o, f) {
-        v_obj = o
-        v_fun = f
-        setTimeout("execmascara()", 1)
-    }
-
-    function execmascara() {
-        v_obj.value = v_fun(v_obj.value)
-    }
-
-    function mtel(v) {
-        v = v.replace(/\D/g, ""); //Remove tudo o que não é dígito
-        v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-        v = v.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
-        return v;
-    }
-
-    function id(el) {
-        return document.getElementById(el);
-    }
-    window.onload = function() {
-        id('telephone').onkeyup = function() {
-            mascara(this, mtel);
-        }
-    }
-</script>
 @endsection

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -42,22 +40,6 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /*public function register(Request $request)
-    {
-        $validator = $this->validator($request->all());
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                $request,
-                $validator
-            );
-        }
-
-        //Auth::guard($this->getGuard())->login($this->create($request->all()));
-        // Originally the parameter is $this->redirectPath()
-        return redirect()->to('/login');
-    }*/
-
     /**
      * Get a validator for an incoming registration request.
      *
@@ -67,9 +49,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -77,32 +59,14 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
-
-        $user = User::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'status' => 0,
-            'telephone' => $data['telephone'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
         ]);
-
-        //SE TEM RETORNO DO ID DO USUARIO CRIADO CADASTRA O RESTANTE
-        if ($user['id']) {
-
-            //CRIA AS CONFIGS DOS AMBIENTES NOME E INSTA
-            DB::table('consulting_environments')->insert([
-                [
-                    'name' => $data['work'],
-                    'instagram' => $data['instagram'],
-                    'user_id' => $user->id
-                ]
-            ]);
-        }
-
-        return $user;
     }
 }
